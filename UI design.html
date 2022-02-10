@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rock paper Scissors</title>
+  <h1>Rock paper Scissors</h1>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id='text_container'>
+    <p> <span class='identity'> <strong>User</strong></span>     <span id='scoreboard'>  0 : 0 </span>      <span class='identity'><strong> Computer</strong></span> </p>
+    <p id='result'>  </p>
+  </div>
+
+  <div id='rps_buttons'>
+    <div>
+        <button id='rock' class='rps' >Rock</button>
+        <button id='paper' class='rps'>Paper</button>
+        <button id='scissor' class='rps'>Scissor</button>
+    </div>
+    <p class='adjust'>Select your weapon!</p>
+   </div>
+
+
+
+
+   <style>
+    .slim {
+        padding: 10px;
+        border-radius: 5px;
+        width: 80px;
+        margin-top: 20px;
+        justify-content: center;
+        color: white;   
+        background-color: green;
+        margin-left: 50px; 
+    }
+   </style>
+
+  <script>
+    const rock = document.getElementById('rock')
+    const paper = document.getElementById('paper')
+    const scissor = document.getElementById('scissor')
+    const find = document.getElementById('result')
+    const score = document.querySelector('#scoreboard')
+    const cover = document.querySelector('#text_container')
+    const body = document.querySelector('body')
+    const r_p_s = document.querySelector('#rps_buttons')
+
+    let playerScore = 0
+    let computerScore = 0
+
+    let para = document.createElement('p')
+    let reload = document.createElement('button')
+   
+    
+    reload.classList.add('slim')
+    reload.textContent = 'Replay'
+    
+
+    function computerPlay() {
+      let compSelect = ['Rock', 'Paper', 'Scissor']
+      let index = Math.floor(Math.random() * 3)
+      return compSelect[index]
+    }
+ 
+  
+    function myPlay() {
+      rock.addEventListener('click', function() {
+        playRound('Rock')
+      })
+
+      paper.addEventListener('click', function() {
+        playRound('Paper')
+      })
+
+      scissor.addEventListener('click', function() {
+        playRound('Scissor')
+      })   
+    }
+
+    myPlay()
+
+
+
+    function gameOver() {
+        cover.removeChild(find)
+        body.removeChild(r_p_s)
+        
+        cover.appendChild(para)
+        cover.appendChild(reload)
+        reload.addEventListener('click', function() {
+      location.reload()
+    })
+    }
+
+
+    function win(playerSelection, computerSelection) {
+      playerScore++
+      score.textContent = `${playerScore} : ${computerScore}`
+
+
+      if (playerScore == 5 && computerScore < 5) {
+        para.innerHTML = `Game Over, You won`
+        
+        gameOver()
+      }
+
+      else {
+        find.innerHTML = `You Win! ${playerSelection} beats ${computerSelection}`
+      }
+    }
+
+
+    function lose(playerSelection, computerSelection) {
+      computerScore++
+      score.textContent = `${playerScore} : ${computerScore}`
+
+      if (computerScore == 5 && playerScore < 5) {
+        para.innerHTML = `Game Over, Computer won`
+        
+        gameOver()
+      }
+
+      else {
+        find.innerHTML = `You Lose! ${computerSelection} beats ${playerSelection}`
+      }
+    }
+
+
+    function draw(playerSelection, computerSelection) {
+      score.textContent = `${playerScore} : ${computerScore}`
+      find.innerHTML = `You Drew`
+    }
+
+
+    function playRound(playerSelection) {
+
+    let computerSelection = computerPlay()
+      
+      if (playerSelection == 'Rock' && computerSelection == 'Paper') {
+         lose(playerSelection, computerSelection)
+      }
+
+      else if (playerSelection == 'Rock' && computerSelection == 'Scissor') {
+         win(playerSelection, computerSelection)        
+      }
+
+      else if (playerSelection == 'Paper' && computerSelection == 'Scissor') {
+         lose(playerSelection, computerSelection)
+      }
+
+      else if (playerSelection == 'Paper' && computerSelection == 'Rock') {
+         win(playerSelection, computerSelection)
+      }
+
+      else if (playerSelection == 'Scissor' && computerSelection == 'Rock') {
+         lose(playerSelection, computerSelection)
+      }
+
+      else if (playerSelection == 'Scissor' && computerSelection == 'Paper') {
+         win(playerSelection, computerSelection)
+      }
+
+      else if (playerSelection == computerSelection) {
+         draw(playerSelection, computerSelection)
+      }
+
+      else {
+        console.error('replay')
+      }
+    }
+
+  
+</script>
+</body>
+</html>
